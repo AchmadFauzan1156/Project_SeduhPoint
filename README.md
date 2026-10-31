@@ -31,65 +31,70 @@ Repositori ini berisi kerangka awal proyek:
 
 ## Struktur
 
-Selain `static/` dan `db/seduhpoint.sql`, semua file di bawah ini masih kosong.
-
 ```
-cmd/web/main.go                 titik masuk server dan routing
-internal/config/config.go       konfigurasi dari .env
+cmd/web/
+  main.go             menjalankan server, membuka koneksi database, dan mendaftarkan route
+internal/config/
+  config.go           membaca pengaturan dari file .env
 internal/middleware/
-  auth.go                       sesi login dan pembatasan peran
-  logging.go                    log setiap request
-internal/handler/
-  render.go                     pemuat template
-  halaman.go                    halaman Ringkasan admin
-  auth.go                       halaman login dan logout
-  cabang.go                     halaman cabang
-  produk.go                     halaman kategori dan produk
-  member.go                     halaman member
-  promo.go                      halaman promo dan voucher
-  transaksi.go                  kasir, struk, riwayat, pembatalan
-  laporan.go                    laporan biaya promo, poin, member
-internal/service/
-  errors.go                     error validasi input
-  auth.go                       login dan pengecekan password
-  cabang.go                     aturan data cabang
-  produk.go                     aturan kategori dan produk
-  member.go                     aturan member
-  poin.go                       kedaluwarsa poin dan tingkat member
-  promo.go                      aturan promo dan voucher
-  ketentuan.go                  ketentuan promo untuk kasir
-  hitung.go                     perhitungan promo dan poin
-  hitung_test.go                unit test perhitungan
-  transaksi.go                  checkout dan pembatalan
-  laporan.go                    perhitungan ringkasan dan laporan
-internal/repository/
-  repository.go                 Querier dan database transaction
-  pengguna.go                   data akun login
-  cabang.go                     data cabang
-  produk.go                     data kategori dan produk
-  member.go                     data member
-  poin.go                       lot dan mutasi poin
-  promo.go                      data promo dan voucher
-  transaksi.go                  penyimpanan dan pembatalan transaksi
-  laporan.go                    query ringkasan dan laporan
-internal/model/model.go         struct data bersama
+  auth.go             sesi login dan pembatasan halaman per peran
+  logging.go          mencatat setiap request ke log
+internal/handler/     menerima request, memanggil service, lalu menampilkan template
+  render.go           memuat dan menampilkan template
+  halaman.go          halaman beranda
+  auth.go             login dan logout
+  cabang.go           cabang
+  produk.go           kategori dan produk
+  member.go           member
+  promo.go            promo dan voucher
+  transaksi.go        kasir, struk, riwayat, dan pembatalan transaksi
+  laporan.go          laporan
+internal/service/     aturan bisnis, tanpa SQL dan tanpa urusan HTTP
+  errors.go           jenis error untuk input yang tidak valid
+  auth.go             pengecekan login
+  cabang.go           aturan data cabang
+  produk.go           aturan data kategori dan produk
+  member.go           aturan data member
+  poin.go             masa berlaku poin dan tingkat member
+  promo.go            aturan promo dan voucher
+  ketentuan.go        teks ketentuan promo
+  hitung.go           perhitungan potongan dan poin
+  hitung_test.go      unit test perhitungan
+  transaksi.go        proses transaksi dan pembatalan
+  laporan.go          pengolahan data laporan
+internal/repository/  satu-satunya tempat query SQL
+  repository.go       fungsi bersama dan database transaction
+  pengguna.go         tabel pengguna
+  cabang.go           tabel cabang
+  produk.go           tabel kategori dan produk
+  member.go           tabel member dan riwayat tingkat
+  poin.go             tabel lot dan mutasi poin
+  promo.go            tabel promo beserta cabang, produk, dan kategorinya
+  transaksi.go        tabel transaksi, item, dan promo transaksi
+  laporan.go          query untuk laporan
+internal/model/
+  model.go            struct data yang dipakai bersama
 templates/
-  layout.html, header.html, sidebar.html, footer.html
-  dashboard.html                halaman Ringkasan admin
-  login.html
-  cabang/list.html
-  kategori/list.html
-  produk/list.html
-  member/list.html
-  promo/list.html
-  transaksi/kasir.html, struk.html, list.html
-  laporan/promo.html, poin.html, member.html
+  layout.html         kerangka HTML setiap halaman
+  header.html         logo, ikon, dan ornamen
+  sidebar.html        menu navigasi
+  footer.html         skrip di akhir halaman
+  dashboard.html      halaman beranda
+  login.html          halaman login
+  cabang/             halaman cabang
+  kategori/           halaman kategori
+  produk/             halaman produk
+  member/             halaman member
+  promo/              halaman promo dan voucher
+  transaksi/          halaman kasir, struk, dan riwayat transaksi
+  laporan/            halaman laporan
 static/
-  css/style.css                 gaya tampilan
-  js/app.js                     jam dan tanggal di bilah atas
-  img/logo.svg                  logo
-  img/upload/                   foto produk unggahan admin
-db/seduhpoint.sql               skema 15 tabel dan data awal
+  css/style.css       gaya tampilan
+  js/app.js           skrip tampilan (jam dan tanggal)
+  img/logo.svg        logo
+  img/upload/         foto produk yang diunggah
+db/
+  seduhpoint.sql      skema 15 tabel dan data awal
 ```
 
 ## Cara Memakai Repo
