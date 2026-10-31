@@ -1,0 +1,6 @@
+.env
+*.exe
+tmp/
+
+static/img/upload/*
+!static/img/upload/.gitkeep
